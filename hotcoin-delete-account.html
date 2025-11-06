@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotCoin Account Deletion Request</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .form-input {
+            transition: all 0.2s ease-in-out;
+        }
+        .form-input:focus {
+            border-color: #ef4444; /* red-600 */
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.4);
+        }
+        .submit-button {
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .submit-button:hover {
+            transform: translateY(-1px);
+        }
+        .submit-button:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-lg mx-auto bg-white shadow-2xl rounded-2xl p-6 md:p-10 border-t-4 border-red-600">
+
+        <!-- Header and Navigation -->
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl font-extrabold text-gray-900 mb-2">
+                Delete HotCoin Account
+            </h1>
+            <p class="text-gray-500">Please provide the details below to submit a formal account and data deletion request.</p>
+            <!-- <div class="mt-4">
+                <a href="privacy_policy.html" class="text-sm text-red-600 font-medium hover:text-red-700 transition duration-200">
+                    &larr; Read Privacy Policy
+                </a>
+            </div> -->
+        </header>
+
+        <!-- Deletion Form -->
+        <form id="deletionForm" class="space-y-6">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">HotCoin User Name</label>
+                <input type="text" id="username" name="username" required class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="@YourHotCoinTag">
+            </div>
+            
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="email" name="email" required class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="example@domain.com">
+            </div>
+
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (Optional for verification)</label>
+                <input type="tel" id="phone" name="phone" class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="+92 300 1234567">
+            </div>
+
+            <div>
+                <label for="query" class="block text-sm font-medium text-gray-700 mb-1">Reason for Deletion (Query)</label>
+                <textarea id="query" name="query" rows="4" required class="form-input w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none" placeholder="Optional: Please tell us why you are leaving so we can improve."></textarea>
+            </div>
+            
+            <div id="errorMessage" class="text-red-500 text-sm hidden">
+                Please fill out all required fields (User Name, Email, and Reason).
+            </div>
+
+            <button type="submit" class="submit-button w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-sm font-bold text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                Submit Deletion Request
+            </button>
+        </form>
+
+        <!-- Submission Success Message -->
+        <div id="successMessage" class="hidden text-center p-8 bg-green-50 rounded-xl border border-green-200 shadow-inner">
+            <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h2 class="text-2xl font-bold text-green-700 mb-2">Request Submitted!</h2>
+            <p class="text-gray-600">Thank you for contacting us. Your account deletion request has been **submitted** for review. We will process it shortly.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('deletionForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Stop default form submission
+
+            const form = event.target;
+            const username = document.getElementById('username');
+            const email = document.getElementById('email');
+            const query = document.getElementById('query');
+            const errorMessage = document.getElementById('errorMessage');
+
+            let isValid = true;
+            
+            // Basic validation check for required fields
+            if (username.value.trim() === '' || email.value.trim() === '' || query.value.trim() === '') {
+                isValid = false;
+            }
+
+            // Simple email format validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value.trim())) {
+                isValid = false;
+            }
+
+            if (isValid) {
+                errorMessage.classList.add('hidden');
+                
+                // Hide the form and show the success message
+                form.classList.add('hidden');
+                document.getElementById('successMessage').classList.remove('hidden');
+
+                // In a real application, you would send this data to a server here.
+                console.log('Form Data Submitted:', {
+                    username: username.value,
+                    email: email.value,
+                    phone: document.getElementById('phone').value,
+                    query: query.value
+                });
+
+            } else {
+                errorMessage.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
